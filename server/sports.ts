@@ -87,7 +87,7 @@ async function fetchAndUpsertLeague(leagueId: string, sport: string, leagueName:
           .set({ ...mapped, updatedAt: new Date() })
           .where(eq(sportEvents.id, existing[0].id));
       } else {
-        await const drizzleDb = await getDb(); drizzleDb?.insert(sportEvents).values(mapped);
+        const drizzleDb = await getDb(); await drizzleDb?.insert(sportEvents).values(mapped);
       }
     }
   } catch (err) {
@@ -188,7 +188,7 @@ export async function upsertEvent(data: InsertSportEvent & { id?: number }) {
     await const drizzleDb = await getDb(); drizzleDb?.update(sportEvents).set(data).where(eq(sportEvents.id, data.id));
     return data.id;
   }
-  const [res] = await const drizzleDb = await getDb(); drizzleDb?.insert(sportEvents).values(data);
+  const [res] = const drizzleDb = await getDb(); await drizzleDb?.insert(sportEvents).values(data);
   return (res as any).insertId as number;
 }
 
@@ -198,7 +198,7 @@ export async function deleteEvent(id: number) {
 }
 
 export async function addStream(data: { eventId: number; name: string; url: string; quality?: string }) {
-  await const drizzleDb = await getDb(); drizzleDb?.insert(sportStreams).values({
+  const drizzleDb = await getDb(); await drizzleDb?.insert(sportStreams).values({
     eventId: data.eventId,
     name: data.name,
     url: data.url,

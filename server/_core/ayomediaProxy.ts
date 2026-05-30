@@ -1,14 +1,7 @@
 /*
   AyoMedia Proxy
   Proxies requests to gateway.ayohost.site to avoid CORS issues in the browser.
-  Routes:
-    GET  /api/ayomedia/search?q=...
-    GET  /api/ayomedia/anime/:slug/episodes
-    POST /api/ayomedia/download         body: { anime_slug, episode_session }
-    GET  /api/ayomedia/download/:id/status
-    GET  /api/ayomedia/movie/search?q=...
-    GET  /api/ayomedia/movie/:id/sources
-	*/
+*/
 
 import express from "express";
 
@@ -48,7 +41,7 @@ export function registerAyoMediaProxy(app: express.Express) {
     await proxyGet(`${AYOMEDIA_BASE}/anime/api/anime/${slug}/episodes?api_key=${API_KEY}`, res);
   });
 
-  // Get stream URL (proxy_m3u8) for download
+  // Get stream URL for download
   app.get("/api/ayomedia/stream", async (req, res) => {
     const { anime_slug, episode_session } = req.query as { anime_slug: string; episode_session: string };
     if (!anime_slug || !episode_session) {
@@ -75,7 +68,6 @@ export function registerAyoMediaProxy(app: express.Express) {
         body: JSON.stringify({ anime_title, episode_number, anime_slug, episode_session }),
       });
       const data = await response.json();
-      console.log("[AyoMedia] Download response:", JSON.stringify(data));
       res.status(response.status).json(data);
     } catch (err) {
       console.error("[AyoMedia] Download error:", err);
@@ -90,12 +82,12 @@ export function registerAyoMediaProxy(app: express.Express) {
     await proxyGet(`${AYOMEDIA_BASE}/anime/api/download/${id}/status?api_key=${API_KEY}`, res);
   });
 
-  // Search movie by title
+  // Search movie by title — fixed URL format
   app.get("/api/ayomedia/movie/search", async (req, res) => {
     const q = req.query.q as string;
     if (!q) return res.status(400).json({ error: "Missing query" });
     console.log("[AyoMedia] Movie Search:", q);
-    await proxyGet(`${AYOMEDIA_BASE}/movie/api/search?q=${encodeURIComponent(q)}&api_key=${API_KEY}`, res);
+    await proxyGet(`${AYOMEDIA_BASE}/movie/api/search/${encodeURIComponent(q)}?api_key=${API_KEY}`, res);
   });
 
   // Get movie sources (download links)

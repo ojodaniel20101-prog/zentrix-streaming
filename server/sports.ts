@@ -188,7 +188,7 @@ export async function upsertEvent(data: InsertSportEvent & { id?: number }) {
     const drizzleDb = await getDb(); await drizzleDb?.update(sportEvents).set(data).where(eq(sportEvents.id, data.id));
     return data.id;
   }
-  const [res] = const drizzleDb = await getDb(); await drizzleDb?.insert(sportEvents).values(data);
+  const drizzleDb = await getDb(); const [res] = await drizzleDb?.insert(sportEvents).values(data) ?? [];
   return (res as any).insertId as number;
 }
 

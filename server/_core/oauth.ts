@@ -1,0 +1,83 @@
+import { COOKIE_NAME, ONE_YEAR_MS } from "@shared/const";
+import type { Express, Request, Response } from "express";
+import * as db from "../db";
+import { getSessionCookieOptions } from "./cookies";
+import { sdk } from "./sdk";
+
+// Firebase Admin verification
+async function verifyFirebaseToken(idToken: string): Promise<{
+  uid: string;
+  email?: string;
+  name?: string;
+} | null> {
+  try {
+    // Decode the JWT to get the payload (Firebase tokens are standard JWTs)
+    const parts = idToken.split(".");
+    if (parts.length !== 3) return null;
+    const payload = JSON.parse(Buffer.from(parts[1], "base64url").toString());
+    
+    // Verify it's from our Firebase project
+    const projectId = process.env.VITE_FIREBASE_PROJECT_ID || "zentrix-chat";
+    if (payload.aud !== projectId) return null;
+    
+    // Check expiry
+    if (payload.exp < Date.now() / 1000) return null;
+
+    return {
+      uid: payload.sub || payload.user_id,
+      email: payload.email,
+      name: payload.name,
+    };
+  } catch (error) {
+    console.error("[Firebase] Token verification failed:", error);
+    return null;
+  }
+}
+
+export function registerOAuthRoutes(app: Express) {
+  // Firebase Google Sign-In endpoint
+  app.post("/api/auth/firebase", async (req: Request, res: Response) => {
+    const { idToken } = req.body;
+
+    if (!idToken) {
+      res.status(400).json({ error: "idToken is required" });
+      return;
+    }
+
+    try {
+      const firebaseUser = await verifyFirebaseToken(idToken);
+      
+      if (!firebaseUser) {
+        res.status(401).json({ error: "Invalid Firebase token" });
+        return;
+      }
+
+      const openId = `google_${firebaseUser.uid}`;
+
+      await db.upsertUser({
+        openId,
+        name: firebaseUser.name || null,
+        email: firebaseUser.email ?? null,
+        loginMethod: "google",
+        lastSignedIn: new Date(),
+      });
+
+      const sessionToken = await sdk.createSessionToken(openId, {
+        name: firebaseUser.name || "",
+        expiresInMs: ONE_YEAR_MS,
+      });
+
+      const cookieOptions = getSessionCookieOptions(req);
+      res.cookie(COOKIE_NAME, sessionToken, { ...cookieOptions, maxAge: ONE_YEAR_MS });
+      res.json({ success: true });
+    } catch (error) {
+      console.error("[Auth] Firebase login failed", error);
+      res.status(500).json({ error: "Authentication failed" });
+    }
+  });
+
+  // Keep legacy callback route (no-op for compatibility)
+  app.get("/api/oauth/callback", (_req: Request, res: Response) => {
+    res.redirect("/");
+  });
+}

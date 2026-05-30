@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <title>Zentrix Tech</title>
+    <meta name="description" content="Stream movies, TV shows and anime for free in HD" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://stream.zentrixtech.name.ng" />
+    <meta property="og:title" content="Zentrix Tech" />
+    <meta property="og:description" content="Stream movies, TV shows and anime for free in HD" />
+    <meta property="og:image" content="https://stream.zentrixtech.name.ng/logo.png" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://stream.zentrixtech.name.ng" />
+    <meta name="twitter:title" content="Zentrix Tech" />
+    <meta name="twitter:description" content="Stream movies, TV shows and anime for free in HD" />
+    <meta name="twitter:image" content="https://stream.zentrixtech.name.ng/logo.png" />
+
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#050816" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Zentrix Tech" />
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js');
+        });
+      }
+    </script>
+    <script
+      defer
+      src="%VITE_ANALYTICS_ENDPOINT%/umami"
+      data-website-id="%VITE_ANALYTICS_WEBSITE_ID%"></script>
+  </body>
+
+</html>

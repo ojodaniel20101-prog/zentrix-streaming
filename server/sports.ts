@@ -185,7 +185,7 @@ export async function getEventById(id: number) {
 
 export async function upsertEvent(data: InsertSportEvent & { id?: number }) {
   if (data.id) {
-    await const drizzleDb = await getDb(); drizzleDb?.update(sportEvents).set(data).where(eq(sportEvents.id, data.id));
+    const drizzleDb = await getDb(); await drizzleDb?.update(sportEvents).set(data).where(eq(sportEvents.id, data.id));
     return data.id;
   }
   const [res] = const drizzleDb = await getDb(); await drizzleDb?.insert(sportEvents).values(data);
@@ -193,8 +193,8 @@ export async function upsertEvent(data: InsertSportEvent & { id?: number }) {
 }
 
 export async function deleteEvent(id: number) {
-  await const drizzleDb = await getDb(); drizzleDb?.delete(sportStreams).where(eq(sportStreams.eventId, id));
-  await const drizzleDb = await getDb(); drizzleDb?.delete(sportEvents).where(eq(sportEvents.id, id));
+  const drizzleDb = await getDb(); await drizzleDb?.delete(sportStreams).where(eq(sportStreams.eventId, id));
+  const drizzleDb = await getDb(); await drizzleDb?.delete(sportEvents).where(eq(sportEvents.id, id));
 }
 
 export async function addStream(data: { eventId: number; name: string; url: string; quality?: string }) {
@@ -207,5 +207,5 @@ export async function addStream(data: { eventId: number; name: string; url: stri
 }
 
 export async function removeStream(streamId: number) {
-  await const drizzleDb = await getDb(); drizzleDb?.delete(sportStreams).where(eq(sportStreams.id, streamId));
+  const drizzleDb = await getDb(); await drizzleDb?.delete(sportStreams).where(eq(sportStreams.id, streamId));
 }

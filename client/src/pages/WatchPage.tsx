@@ -40,6 +40,7 @@ import {
 import SeasonSelector from "@/components/SeasonSelector";
 import AnimeSeasonSelector from "@/components/AnimeSeasonSelector";
 import AnimeDownloadButton from "@/components/AnimeDownloadButton";
+import MovieDownloadButton from "@/components/MovieDownloadButton";
 
 import { downloadStream } from "@/lib/streamDownloader";
 
@@ -546,6 +547,11 @@ export default function WatchPage() {
                 {isAnime && (
                   <div className="ml-auto w-36">
                     <AnimeDownloadButton animeTitle={title} episodeNumber={episode} />
+                  </div>
+                )}
+                {type === "movie" && (
+                  <div className="ml-auto w-36">
+                    <MovieDownloadButton movieTitle={title} />
                   </div>
                 )}
               </div>

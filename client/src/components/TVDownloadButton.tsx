@@ -112,7 +112,7 @@ export default function TVDownloadButton({ showTitle, currentSeason = 1, current
             </div>
             <div className="overflow-y-auto flex-1 p-3 flex flex-col gap-2">
               {filteredEpisodes.map(ep => (
-                <a key={ep.resourceId} href={ep.download_url} target="_blank" rel="noopener noreferrer" onClick={() => setShowModal(false)}
+                <a key={ep.resourceId} href={ep.download_url} download onClick={() => setShowModal(false)}
                   className="flex items-center justify-between px-4 py-3 rounded-xl bg-white/5 hover:bg-[#00D4FF]/10 border border-white/10 hover:border-[#00D4FF]/30 transition-all">
                   <div className="flex items-center gap-3 min-w-0">
                     <Download className="w-4 h-4 text-[#00D4FF] shrink-0" />

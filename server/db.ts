@@ -223,3 +223,4 @@ export async function getUserFeedbackById(feedbackId: number): Promise<UserFeedb
     return null;
   }
 }
+export const db = { getDb };

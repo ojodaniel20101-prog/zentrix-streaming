@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /profile
+Disallow: /watchlist
+Disallow: /watch/
+Disallow: /api/
+
+Sitemap: https://stream.zentrixtech.name.ng/sitemap.xml

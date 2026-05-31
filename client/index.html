@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+
+    <title>Zentrix Stream — Watch & Download Movies, TV Shows, Anime & Sports Free</title>
+    <meta name="description" content="Stream and download Movies, TV Shows, Anime, WWE & Sports for free in HD on Zentrix Stream. No buffering, no subscription. Just hit play." />
+    <meta name="keywords" content="free movie streaming, watch anime online, download movies free, TV shows online, WWE streaming, sports live stream, HD movies, zentrix stream" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://stream.zentrixtech.name.ng/" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://stream.zentrixtech.name.ng" />
+    <meta property="og:title" content="Zentrix Stream — Watch & Download Movies, TV Shows, Anime & Sports Free" />
+    <meta property="og:description" content="Stream and download Movies, TV Shows, Anime, WWE & Sports for free in HD. No buffering, no subscription. Just hit play." />
+    <meta property="og:image" content="https://stream.zentrixtech.name.ng/icon-512.png" />
+    <meta property="og:site_name" content="Zentrix Stream" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://stream.zentrixtech.name.ng" />
+    <meta name="twitter:title" content="Zentrix Stream — Watch & Download Movies, TV Shows, Anime & Sports Free" />
+    <meta name="twitter:description" content="Stream and download Movies, TV Shows, Anime, WWE & Sports for free in HD. No buffering, no subscription. Just hit play." />
+    <meta name="twitter:image" content="https://stream.zentrixtech.name.ng/icon-512.png" />
+
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#050816" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Zentrix Stream" />
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js');
+        });
+      }
+    </script>
+  </body>
+
+</html>
